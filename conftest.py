@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
+from pages.main_page import MainPage
 
 
 def pytest_addoption(parser):
@@ -18,3 +18,7 @@ def browser(request):
     yield browser
     browser.quit()
 
+
+@pytest.fixture(scope="function")
+def main_page(browser):
+    return MainPage(browser)
