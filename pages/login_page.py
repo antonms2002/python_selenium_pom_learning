@@ -21,12 +21,12 @@ class LoginPage(BasePage):
             path = self.path
         super().open(path=path)
 
-    def should_be_login_page(self):
+    def should_be_login_page(self) -> None:
         self.should_be_login_url()
         self.should_be_login_form()
         self.should_be_register_form()
 
-    def should_be_login_url(self):
+    def should_be_login_url(self) -> None:
         assert self.browser.current_url.endswith(self.path), \
             f"Login page url does not match login page url. Actual: {self.browser.current_url}"
 

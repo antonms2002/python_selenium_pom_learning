@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
+from pages.product_page import ProductPage
 
 
 def pytest_addoption(parser):
@@ -27,3 +28,7 @@ def main_page(browser):
 @pytest.fixture(scope="function")
 def login_page(browser):
     return LoginPage(browser)
+
+@pytest.fixture(scope="function")
+def product_page(browser):
+    return ProductPage(browser)

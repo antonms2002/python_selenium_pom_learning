@@ -11,11 +11,18 @@ class BasePage:
         self.browser = browser
         self.wait = WebDriverWait(self.browser, 10)
 
-    def open(self, path='') -> None:
+    def open(self, path = "") -> None:
         self.browser.get(f"{self.base_url}{path}")
 
     def find_element(self, locator) -> WebElement:
         return self.wait.until(EC.visibility_of_element_located(locator))
+
+    def click_element(self, locator) -> None:
+        self.wait.until(EC.element_to_be_clickable(locator)).click()
+
+    def get_text(self, locator) -> str:
+        element = self.find_element(locator)
+        return element.text
 
     def is_element_present(self, locator) -> bool:
         try:
