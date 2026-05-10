@@ -1,6 +1,7 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from pages.login_page import LoginPage
 from pages.main_page import MainPage
 
 
@@ -22,3 +23,7 @@ def browser(request):
 @pytest.fixture(scope="function")
 def main_page(browser):
     return MainPage(browser)
+
+@pytest.fixture(scope="function")
+def login_page(browser):
+    return LoginPage(browser)
