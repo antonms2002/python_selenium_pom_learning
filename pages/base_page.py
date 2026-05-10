@@ -15,11 +15,11 @@ class BasePage:
         self.browser.get(f"{self.base_url}{path}")
 
     def find_element(self, locator) -> WebElement:
-        return self.wait.until(EC.presence_of_element_located(locator))
+        return self.wait.until(EC.visibility_of_element_located(locator))
 
     def is_element_present(self, locator) -> bool:
         try:
-            self.wait.until(EC.presence_of_element_located(locator))
+            self.wait.until(EC.visibility_of_element_located(locator))
             return True
         except TimeoutException:
             return False
