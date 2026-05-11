@@ -4,13 +4,14 @@ from pages.base_page import BasePage
 import math
 
 class ProductPage(BasePage):
-    path = 'catalogue/the-shellcoders-handbook_209/?promo=newYear'
+    path = 'catalogue/coders-at-work_207/?promo=newYear2019'
 
     # locators
     ADD_TO_CART_BUTTON = (By.CLASS_NAME, "btn-add-to-basket")
     PRODUCT_NAME_TEXT = (By.CSS_SELECTOR, "div.product_main > h1")
     DESCRIPTION_TITLE_TEXT = (By.ID, "product_description")
     ADD_TO_CART_SUCCESS_MESSAGE = (By.CSS_SELECTOR, "div.alertinner > strong")
+    PRICE_TEXT = (By.CSS_SELECTOR, "p.price_color")
 
     def open(self, path = None) -> None:
         if path is None:
@@ -25,6 +26,15 @@ class ProductPage(BasePage):
 
     def get_product_title_text(self) -> str:
         return self.get_text(self.PRODUCT_NAME_TEXT)
+
+    def get_product_price_text(self) -> str:
+        return self.get_text(self.PRICE_TEXT)
+
+    def should_be_right_title_and_price(self, expected_product_title: str, expected_price: str) -> None:
+        product_title = self.get_product_title_text()
+        price = self.get_product_price_text()
+        assert product_title == expected_product_title, f"Expected: {expected_product_title}, Actual: {product_title}"
+        assert price == expected_price, f"Expected: {expected_price}, Actual: {price}"
 
     def get_add_to_cart_success_message_text(self) -> str:
         return self.get_text(self.ADD_TO_CART_SUCCESS_MESSAGE)
