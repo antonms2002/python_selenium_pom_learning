@@ -30,3 +30,60 @@ class BasePage:
             return True
         except TimeoutException:
             return False
+
+    # Method to check that there is no element on page
+    def is_not_element_present(self, locator, timeout=3) -> bool:
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located(locator))
+            return False
+        except TimeoutException:
+            return True
+
+    # visibility_of_element_located - is element visible
+    # presence_of_element_located  - is element in DOM
+
+    # Method to check that some element disappeared from page
+    def is_element_disappeared(self, locator, timeout=3) -> bool:
+        try:
+            WebDriverWait(self.browser, timeout).until_not(EC.visibility_of_element_located(locator))
+            return True
+        except TimeoutException:
+            return False
+    '''
+    WebDriverWait(driver, timeout, poll_frequency: float = 0.5, ignored_exceptions: tuple)
+        
+      - ignored_exceptions: Iterable (tuple in python) structure of exception classes ignored
+        during calls. By default, it contains NoSuchElementException only.
+        
+    Explict wait list: https://selenium-python.readthedocs.io/waits.html 
+    
+    .until(method): 
+    Ожидает, пока предоставленный method вернет что-либо, кроме False.
+    Т.е. ждет, когда EC вернет True 
+    Если method продолжает возвращать False до истечения времени ожидания, 
+    будет вызвано исключение TimeoutException.
+
+    .until_not(method): 
+    Ожидает, пока предоставленный method не вернет False. 
+     Т.е. ждет, когда EC вернет False
+    Если метод не вернет False до истечения времени ожидания, 
+    будет вызвано исключение TimeoutException.
+    
+    К слову, судя по всему явные ожадания из EC (e.g visibility_of_element_located
+    это НЕ метод. Это класс с магическим методом __call__.
+    __call__() позволяет вызывать экземпляр класса как функцию.
+    ПРИ ЭТОМ ЭКЗЕМЛЯР КЛАССА ПЕРЕДАЕТСЯ В метод until, где вызывается как ФУНКЦИЯ.
+    Т.е. если создавать класс с __call__, нужно сначала создать экземпляр этого класса. 
+    При этом в __call__(self, some_params) можно передавать параметры 
+    при вызове через экземпляр класса. - проверить
+     '''
+
+    # def is_disappeared(self, how, what, timeout=4):
+    #     try:
+    #         WebDriverWait(self.browser, timeout, 1, TimeoutException). \
+    #             until_not(EC.presence_of_element_located((how, what)))
+    #     except TimeoutException:
+    #         return False
+    #
+    #     return True
+
