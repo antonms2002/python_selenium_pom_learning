@@ -31,7 +31,7 @@ class BasePage:
         except TimeoutException:
             return False
 
-    # Method to check that there is no element on page
+    # Method to check that element is NOT appearing on page during timeout(3s)
     def is_not_element_present(self, locator, timeout=3) -> bool:
         try:
             WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located(locator))
@@ -42,7 +42,7 @@ class BasePage:
     # visibility_of_element_located - is element visible
     # presence_of_element_located  - is element in DOM
 
-    # Method to check that some element disappeared from page
+    # Method to check that element disappearing from page
     def is_element_disappeared(self, locator, timeout=3) -> bool:
         try:
             WebDriverWait(self.browser, timeout).until_not(EC.visibility_of_element_located(locator))

@@ -7,10 +7,12 @@ class ProductPage(BasePage):
     path = 'catalogue/coders-at-work_207/?promo=newYear2019'
 
     # locators
-    ADD_TO_CART_BUTTON = (By.CLASS_NAME, "btn-add-to-basket")
+    ADD_TO_CART_BUTTON = (By.CLASS_NAME, "btn-add-to-basket.btn-primary ")
     PRODUCT_NAME_TEXT = (By.CSS_SELECTOR, "div.product_main > h1")
     DESCRIPTION_TITLE_TEXT = (By.ID, "product_description")
+    ADD_TO_CART_SUCCESS_MESSAGE_DIV = (By.CLASS_NAME, "div.alertinner")
     ADD_TO_CART_SUCCESS_MESSAGE = (By.CSS_SELECTOR, "div.alertinner > strong")
+    UNAVAILABILITY_TEXT = (By.CSS_SELECTOR, "div.product_main .outofstock.availability")
     PRICE_TEXT = (By.CSS_SELECTOR, "p.price_color")
 
     def open(self, path = None) -> None:
@@ -23,6 +25,10 @@ class ProductPage(BasePage):
 
     def add_to_cart(self) -> None:
         self.click_element(self.ADD_TO_CART_BUTTON)
+
+    # for unavailable goods
+    def should_not_be_add_to_cart(self) -> None:
+        assert self.is_not_element_present(self.ADD_TO_CART_BUTTON), "Add to cart button was found."
 
     def get_product_title_text(self) -> str:
         return self.get_text(self.PRODUCT_NAME_TEXT)
@@ -39,9 +45,18 @@ class ProductPage(BasePage):
     def get_add_to_cart_success_message_text(self) -> str:
         return self.get_text(self.ADD_TO_CART_SUCCESS_MESSAGE)
 
+    def should_not_be_success_message(self) -> None:
+        assert self.is_not_element_present(self.ADD_TO_CART_SUCCESS_MESSAGE_DIV), "Success message was found."
+
+    def should_disappear_success_message(self) -> None:
+        assert self.is_element_disappeared(self.ADD_TO_CART_SUCCESS_MESSAGE_DIV), "Success message is not disappeared."
+
     def should_be_same_text_product_name_and_success_message(self) -> None:
         assert self.get_product_title_text() == self.get_add_to_cart_success_message_text(), \
             "Product name in success message is different than product name"
+
+    def should_be_unavailability_message(self) -> None:
+        assert self.is_element_present(self.UNAVAILABILITY_TEXT), "No unavailability message was found."
 
     # User needs to solve math expression to add product to cart
     def solve_quiz_and_get_code(self):
