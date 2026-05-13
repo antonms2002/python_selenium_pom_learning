@@ -1,6 +1,8 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
+from pages.cart_page import CartPage
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from pages.product_page import ProductPage
@@ -32,3 +34,7 @@ def login_page(browser):
 @pytest.fixture(scope="function")
 def product_page(browser):
     return ProductPage(browser)
+
+@pytest.fixture(scope="function")
+def cart_page(browser):
+    return CartPage(browser)

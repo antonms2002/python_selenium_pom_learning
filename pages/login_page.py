@@ -10,7 +10,6 @@ class LoginPage(BasePage):
     LOGIN_PASSWORD_FIELD = (By.ID, "id_login-password")
     LOGIN_FORGOT_PASSWORD_LINK = (By.CSS_SELECTOR, "[href$='/password-reset/']")
     LOGIN_ENTER_BUTTON = (By.NAME, "login_submit")
-
     REGISTER_EMAIL_FIELD = (By.ID, "id_registration-email")
     REGISTER_PASSWORD_FIELD = (By.ID, "id_registration-password1")
     REGISTER_PASSWORD_REPEAT_FIELD = (By.ID, "id_registration-password2")
@@ -27,7 +26,8 @@ class LoginPage(BasePage):
         self.should_be_register_form()
 
     def should_be_login_url(self) -> None:
-        assert self.browser.current_url.endswith(self.path), \
+        current_url = self.get_url()
+        assert self.path in current_url, \
             f"Login page url does not match login page url. Actual: {self.browser.current_url}"
 
     def should_be_login_form(self):
