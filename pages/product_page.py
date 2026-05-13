@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoAlertPresentException
 from pages.base_page import BasePage
 import math
+import allure
 
 class ProductPage(BasePage):
     path = 'catalogue/coders-at-work_207/?promo=newYear2019'
@@ -15,6 +16,7 @@ class ProductPage(BasePage):
     UNAVAILABILITY_TEXT = (By.CSS_SELECTOR, "div.product_main .outofstock.availability")
     PRICE_TEXT = (By.CSS_SELECTOR, "p.price_color")
 
+    @allure.step("Open page: {self.base_url}{self.path}")
     def open(self, path = None) -> None:
         if path is None:
             path = self.path
