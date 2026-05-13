@@ -16,7 +16,7 @@ class ProductPage(BasePage):
     UNAVAILABILITY_TEXT = (By.CSS_SELECTOR, "div.product_main .outofstock.availability")
     PRICE_TEXT = (By.CSS_SELECTOR, "p.price_color")
 
-    @allure.step("Open page: {self.base_url}{self.path}")
+    @allure.step("Open page")
     def open(self, path = None) -> None:
         if path is None:
             path = self.path
