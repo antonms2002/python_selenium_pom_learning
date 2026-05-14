@@ -16,51 +16,60 @@ class ProductPage(BasePage):
     UNAVAILABILITY_TEXT = (By.CSS_SELECTOR, "div.product_main .outofstock.availability")
     PRICE_TEXT = (By.CSS_SELECTOR, "p.price_color")
 
-    @allure.step("Open page")
     def open(self, path = None) -> None:
         if path is None:
             path = self.path
         super().open(path)
 
+    @allure.step("Check product title is present")
     def should_be_product_title(self) -> None:
         assert self.is_element_present(self.PRODUCT_NAME_TEXT), "Product name was not found."
 
+    @allure.step("Add product to cart")
     def add_to_cart(self) -> None:
         self.click_element(self.ADD_TO_CART_BUTTON)
 
-    # for unavailable goods
+    @allure.step("Check add to cart button is not present (unavailable goods)")
     def should_not_be_add_to_cart(self) -> None:
         assert self.is_not_element_present(self.ADD_TO_CART_BUTTON), "Add to cart button was found."
 
+    @allure.step("Get product title text")
     def get_product_title_text(self) -> str:
         return self.get_text(self.PRODUCT_NAME_TEXT)
 
+    @allure.step("Get product price text")
     def get_product_price_text(self) -> str:
         return self.get_text(self.PRICE_TEXT)
 
+    @allure.step("Check product title and price match expected values")
     def should_be_right_title_and_price(self, expected_product_title: str, expected_price: str) -> None:
         product_title = self.get_product_title_text()
         price = self.get_product_price_text()
         assert product_title == expected_product_title, f"Expected: {expected_product_title}, Actual: {product_title}"
         assert price == expected_price, f"Expected: {expected_price}, Actual: {price}"
 
+    @allure.step("Get add to cart success message text")
     def get_add_to_cart_success_message_text(self) -> str:
         return self.get_text(self.ADD_TO_CART_SUCCESS_MESSAGE)
 
+    @allure.step("Check success message is not present")
     def should_not_be_success_message(self) -> None:
         assert self.is_not_element_present(self.ADD_TO_CART_SUCCESS_MESSAGE_DIV), "Success message was found."
 
+    @allure.step("Check success message disappears")
     def should_disappear_success_message(self) -> None:
         assert self.is_element_disappeared(self.ADD_TO_CART_SUCCESS_MESSAGE_DIV), "Success message is not disappeared."
 
+    @allure.step("Check product name matches success message")
     def should_be_same_text_product_name_and_success_message(self) -> None:
         assert self.get_product_title_text() == self.get_add_to_cart_success_message_text(), \
             "Product name in success message is different than product name"
 
+    @allure.step("Check unavailability message is present")
     def should_be_unavailability_message(self) -> None:
         assert self.is_element_present(self.UNAVAILABILITY_TEXT), "No unavailability message was found."
 
-    # User needs to solve math expression to add product to cart
+    @allure.step("Solve quiz and get code from alert")
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
         x = alert.text.split(" ")[2]

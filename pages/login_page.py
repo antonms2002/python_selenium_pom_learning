@@ -1,3 +1,4 @@
+import allure
 from .base_page import BasePage
 from selenium.webdriver.common.by import By
 
@@ -20,22 +21,26 @@ class LoginPage(BasePage):
             path = self.path
         super().open(path=path)
 
+    @allure.step("Check login page is displayed correctly")
     def should_be_login_page(self) -> None:
         self.should_be_login_url()
         self.should_be_login_form()
         self.should_be_register_form()
 
+    @allure.step("Check login page URL")
     def should_be_login_url(self) -> None:
         current_url = self.get_url()
         assert self.path in current_url, \
             f"Login page url does not match login page url. Actual: {self.browser.current_url}"
 
+    @allure.step("Check login form elements are present")
     def should_be_login_form(self):
         assert self.is_element_present(self.LOGIN_EMAIL_FIELD), "Login email field is not presented."
         assert self.is_element_present(self.LOGIN_PASSWORD_FIELD), "Login password field is not presented."
         assert self.is_element_present(self.LOGIN_FORGOT_PASSWORD_LINK), "Login forgot password field is not presented."
         assert self.is_element_present(self.LOGIN_ENTER_BUTTON), "Login enter button is not presented."
 
+    @allure.step("Check registration form elements are present")
     def should_be_register_form(self):
         assert self.is_element_present(self.REGISTER_EMAIL_FIELD), "Registration email field is not presented."
         assert self.is_element_present(self.REGISTER_PASSWORD_FIELD), "Registration password field is not presented."

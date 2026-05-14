@@ -1,35 +1,24 @@
+import allure
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from .components.navbar import Navbar
 
 
 class BasePage:
     base_url = "http://selenium1py.pythonanywhere.com/"
 
-    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
-    CHECK_CART_BUTTON = (By.CSS_SELECTOR, ".basket-mini > .btn-group > a.btn")
-
-
     def __init__(self, browser):
         self.browser = browser
         self.wait = WebDriverWait(self.browser, 5)
-
-    # Methods for main page
-    def should_be_login_link(self) -> None:
-        assert self.is_element_present(self.LOGIN_LINK), "Login link is not presented."
-
-    def go_to_login_page(self) -> None:
-        login_link = self.find_element(self.LOGIN_LINK)
-        login_link.click()
-
-    def go_to_cart_page(self) -> None:
-        self.click_element(self.CHECK_CART_BUTTON)
+        self.navbar = Navbar(browser)
 
     # Common methods for other pages
     def open(self, path = "") -> None:
-        self.browser.get(f"{self.base_url}{path}")
+        url = f"{self.base_url}{path}"
+        with allure.step(f"Open page {url}"):
+            self.browser.get(url)
 
     def get_url(self) -> str:
         return self.browser.current_url
